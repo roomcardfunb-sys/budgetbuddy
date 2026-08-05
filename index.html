@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Expense Tracker</title>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>💰 Budget Buddy</h1>
+        <p>A Simple Expense Tracker</p>
+        <hr>
+    </header>
+
+    <!-- Login Button -->
+    <section>
+        <h2>Welcome</h2>
+        <button>Login</button>
+    </section>
+
+    <hr>
+
+    <!-- Dashboard -->
+    <section>
+        <h2>Dashboard</h2>
+
+        <h3>Total Balance: ₹0</h3>
+        <h3>Total Income: ₹0</h3>
+        <h3>Total Expense: ₹0</h3>
+    </section>
+
+    <hr>
+
+    <!-- Add Expense Form -->
+    <section>
+        <h2>Add Expense</h2>
+
+        <form>
+
+            <label>Expense Name:</label><br>
+            <input type="text" placeholder="Enter expense name"><br><br>
+
+            <label>Category:</label><br>
+            <select>
+                <option>Food</option>
+                <option>Travel</option>
+                <option>Shopping</option>
+                <option>Education</option>
+                <option>Health</option>
+                <option>Others</option>
+            </select><br><br>
+
+            <label>Amount:</label><br>
+            <input type="number" placeholder="Enter amount"><br><br>
+
+            <label>Date:</label><br>
+            <input type="date"><br><br>
+
+            <button type="submit">Add Expense</button>
+
+        </form>
+    </section>
+
+    <hr>
+
+    <!-- Expense History -->
+    <section>
+
+        <h2>Expense History</h2>
+
+        <table border="1" cellpadding="10">
+
+            <tr>
+                <th>S.No</th>
+                <th>Expense</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td>Lunch</td>
+                <td>Food</td>
+                <td>₹250</td>
+                <td>29-07-2026</td>
+                <td><button>Delete</button></td>
+            </tr>
+
+        </table>
+
+    </section>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Budget Buddy. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
