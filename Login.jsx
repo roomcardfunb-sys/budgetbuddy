@@ -5,7 +5,7 @@ function Login({ onLogin }) {
     <div className="login-page">
       <div className="login-box">
         <h1>Budget Buddy</h1>
-        <h2>Login</h2>
+        <h1>Login</h1>
 
         <input
           type="email"
