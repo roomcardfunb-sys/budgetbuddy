@@ -7,11 +7,13 @@ function Dashboard({ onLogout }) {
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
   const [expenseDate, setExpenseDate] = useState("");
+  const [expenseCategory, setExpenseCategory] = useState("");
 
   // Income states
   const [incomes, setIncomes] = useState([]);
   const [incomeName, setIncomeName] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
+  const [incomeDate, setIncomeDate] = useState("");
 
   // Editing states
   const [editingIncome, setEditingIncome] = useState(null);
@@ -41,12 +43,14 @@ function Dashboard({ onLogout }) {
     const newIncome = {
       name: incomeName,
       amount: Number(incomeAmount),
+      date: incomeDate,
     };
 
     setIncomes([...incomes, newIncome]);
 
     setIncomeName("");
     setIncomeAmount("");
+    setIncomeDate("");
   };
 
   // =========================
@@ -56,6 +60,7 @@ function Dashboard({ onLogout }) {
     setEditingIncome(index);
     setIncomeName(incomes[index].name);
     setIncomeAmount(incomes[index].amount);
+    setIncomeDate(incomes[index].date);
   };
 
   // =========================
@@ -72,6 +77,7 @@ function Dashboard({ onLogout }) {
     updatedIncomes[editingIncome] = {
       name: incomeName,
       amount: Number(incomeAmount),
+      date: incomeDate,
     };
 
     setIncomes(updatedIncomes);
@@ -79,6 +85,7 @@ function Dashboard({ onLogout }) {
     setEditingIncome(null);
     setIncomeName("");
     setIncomeAmount("");
+    setIncomeDate("");
   };
 
   // =========================
@@ -108,6 +115,7 @@ function Dashboard({ onLogout }) {
     const newExpense = {
       name: expenseName,
       amount: Number(expenseAmount),
+      category: expenseCategory,
       date: expenseDate,
     };
 
@@ -115,6 +123,7 @@ function Dashboard({ onLogout }) {
 
     setExpenseName("");
     setExpenseAmount("");
+    setExpenseCategory("");
     setExpenseDate("");
   };
 
@@ -127,6 +136,7 @@ function Dashboard({ onLogout }) {
     setExpenseName(expenses[index].name);
     setExpenseAmount(expenses[index].amount);
     setExpenseDate(expenses[index].date);
+     setExpenseCategory(expenses[index].category);
   };
 
   // =========================
@@ -147,6 +157,7 @@ function Dashboard({ onLogout }) {
     updatedExpenses[editingExpense] = {
       name: expenseName,
       amount: Number(expenseAmount),
+      category: expenseCategory,
       date: expenseDate,
     };
 
@@ -230,14 +241,18 @@ function Dashboard({ onLogout }) {
             setIncomeName(e.target.value)
           }
         />
+        <input
+  type="number"
+  placeholder="Amount"
+  value={incomeAmount}
+  onChange={(e) => setIncomeAmount(e.target.value)}
+/>
 
         <input
-          type="number"
-          placeholder="Amount"
-          value={incomeAmount}
-          onChange={(e) =>
-            setIncomeAmount(e.target.value)
-          }
+  type="date"
+  value={incomeDate}
+  onChange={(e) => setIncomeDate(e.target.value)}
+
         />
 
         {editingIncome !== null ? (
@@ -257,7 +272,7 @@ function Dashboard({ onLogout }) {
           {incomes.map((item, index) => (
             <li key={index}>
 
-              {item.name} - ₹{item.amount}
+              {item.name} - ₹{item.amount} - {item.date}
 
               <button
                 onClick={() =>
@@ -302,6 +317,18 @@ function Dashboard({ onLogout }) {
             setExpenseAmount(e.target.value)
           }
         />
+        <select
+  value={expenseCategory}
+  onChange={(e) => setExpenseCategory(e.target.value)}
+>
+  <option value="">Select Category</option>
+  <option value="Food">Food</option>
+  <option value="Travel">Travel</option>
+  <option value="Shopping">Shopping</option>
+  <option value="Bills">Bills</option>
+  <option value="Education">Education</option>
+  <option value="Other">Other</option>
+</select>
 
         <input
           type="date"
@@ -328,7 +355,7 @@ function Dashboard({ onLogout }) {
           {expenses.map((item, index) => (
             <li key={index}>
 
-              {item.name} - ₹{item.amount} - {item.date}
+              {item.name} - ₹{item.amount} - {item.category} - {item.date}
 
               <button
                 onClick={() =>
