@@ -14,7 +14,7 @@ function Dashboard({ onLogout }) {
   const [incomeName, setIncomeName] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
   const [incomeDate, setIncomeDate] = useState("");
-
+  const [monthlyBudget, setMonthlyBudget] = useState("");
   // Editing states
   const [editingIncome, setEditingIncome] = useState(null);
   const [editingExpense, setEditingExpense] = useState(null);
@@ -30,7 +30,7 @@ function Dashboard({ onLogout }) {
     (total, item) => total + item.amount,
     0
   );
-
+const remainingBudget = monthlyBudget - totalExpense;
   // =========================
   // ADD INCOME
   // =========================
@@ -224,8 +224,19 @@ function Dashboard({ onLogout }) {
               ₹{totalIncome - totalExpense}
             </p>
           </div>
+          <div className="card">
+            <h3>Remaining Budget</h3>
+            <p>₹{remainingBudget}</p>
+            </div>
+            </div>
+            <h2>Set Monthly Budget</h2>
 
-        </div>
+<input
+  type="number"
+  placeholder="Enter Monthly Budget"
+  value={monthlyBudget}
+  onChange={(e) => setMonthlyBudget(e.target.value)}
+/>
 
         {/* =========================
             INCOME SECTION
