@@ -5,9 +5,9 @@ function Dashboard({ onLogout }) {
   // Expense states
   const [expenses, setExpenses] = useState([]);
   const [expenseName, setExpenseName] = useState("");
+  const [expenseCategory, setExpenseCategory] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
   const [expenseDate, setExpenseDate] = useState("");
-  const [expenseCategory, setExpenseCategory] = useState("");
 
   // Income states
   const [incomes, setIncomes] = useState([]);
@@ -31,6 +31,37 @@ function Dashboard({ onLogout }) {
     0
   );
 const remainingBudget = monthlyBudget - totalExpense;
+const budgetPercentage =
+  monthlyBudget > 0
+    ? (totalExpense / monthlyBudget) * 100
+    : 0;
+
+    const categoryTotals = {};
+
+expenses.forEach((item) => {
+  const category = item.category || "Other";
+
+  if (categoryTotals[category]) {
+    categoryTotals[category] += item.amount;
+  } else {
+    categoryTotals[category] = item.amount;
+  }
+});
+const recentTransactions = [
+  ...incomes.map((item) => ({
+    name: item.name,
+    amount: item.amount,
+    date: item.date,
+    type: "Income",
+  })),
+
+  ...expenses.map((item) => ({
+    name: item.name,
+    amount: item.amount,
+    date: item.date,
+    type: "Expense",
+  })),
+];
   // =========================
   // ADD INCOME
   // =========================
@@ -105,17 +136,18 @@ const remainingBudget = monthlyBudget - totalExpense;
   const addExpense = () => {
     if (
       expenseName === "" ||
+      expenseCategory === "" ||
       expenseAmount === "" ||
       expenseDate === ""
     ) {
-      alert("Please enter expense name, amount and date");
+      alert("Please enter expense name, category, amount and date");
       return;
     }
 
     const newExpense = {
       name: expenseName,
-      amount: Number(expenseAmount),
       category: expenseCategory,
+      amount: Number(expenseAmount),
       date: expenseDate,
     };
 
@@ -229,6 +261,27 @@ const remainingBudget = monthlyBudget - totalExpense;
             <p>₹{remainingBudget}</p>
             </div>
             </div>
+
+            <div className="budget-progress">
+  <h3>Budget Usage</h3>
+
+  <p>
+    ₹{totalExpense} / ₹{monthlyBudget || 0}
+  </p>
+
+  <div className="progress-bar">
+    <div
+      className="progress-fill"
+      style={{
+        width: `${Math.min(budgetPercentage, 100)}%`,
+      }}
+    ></div>
+  </div>
+
+  <p>{budgetPercentage.toFixed(1)}% Used</p>
+</div>
+
+
             <h2>Set Monthly Budget</h2>
 
 <input
@@ -237,6 +290,28 @@ const remainingBudget = monthlyBudget - totalExpense;
   value={monthlyBudget}
   onChange={(e) => setMonthlyBudget(e.target.value)}
 />
+<h2>Category-wise Expense</h2>
+
+<ul>
+  {Object.entries(categoryTotals).map(
+    ([category, amount]) => (
+      <li key={category}>
+        {category} - ₹{amount}
+      </li>
+    )
+  )}
+</ul>
+{/* Recent Transactions */}
+
+<h2>Recent Transactions</h2>
+
+<ul>
+  {recentTransactions.map((item, index) => (
+    <li key={index}>
+      {item.name} - ₹{item.amount} - {item.type} - {item.date}
+    </li>
+  ))}
+</ul>
 
         {/* =========================
             INCOME SECTION
@@ -319,6 +394,18 @@ const remainingBudget = monthlyBudget - totalExpense;
             setExpenseName(e.target.value)
           }
         />
+        <select
+  value={expenseCategory}
+  onChange={(e) => setExpenseCategory(e.target.value)}
+>
+  <option value="">Select Category</option>
+  <option value="Food">Food</option>
+  <option value="Transport">Transport</option>
+  <option value="Shopping">Shopping</option>
+  <option value="Education">Education</option>
+  <option value="Bills">Bills</option>
+  <option value="Other">Other</option>
+</select>
 
         <input
           type="number"
@@ -328,18 +415,6 @@ const remainingBudget = monthlyBudget - totalExpense;
             setExpenseAmount(e.target.value)
           }
         />
-        <select
-  value={expenseCategory}
-  onChange={(e) => setExpenseCategory(e.target.value)}
->
-  <option value="">Select Category</option>
-  <option value="Food">Food</option>
-  <option value="Travel">Travel</option>
-  <option value="Shopping">Shopping</option>
-  <option value="Bills">Bills</option>
-  <option value="Education">Education</option>
-  <option value="Other">Other</option>
-</select>
 
         <input
           type="date"
@@ -366,7 +441,7 @@ const remainingBudget = monthlyBudget - totalExpense;
           {expenses.map((item, index) => (
             <li key={index}>
 
-              {item.name} - ₹{item.amount} - {item.category} - {item.date}
+              {item.name} - {item.category} - ₹{item.amount} - {item.date}
 
               <button
                 onClick={() =>
